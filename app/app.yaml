@@ -1,0 +1,28 @@
+command:
+  - "uvicorn"
+  - "app:app"
+  - "--host"
+  - "0.0.0.0"
+  - "--port"
+  - "8000"
+
+env:
+  # Lakebase (Autoscaling) endpoint that holds the OkTex measurement tables.
+  # The app SP authenticates with a fresh OAuth token per connection (see
+  # server/db.py); PGUSER is the SP's client id, which is mapped to the
+  # `oktex-app` Postgres role that has SELECT on the tables.
+  - name: ENDPOINT_NAME
+    value: "projects/oktex/branches/production/endpoints/primary"
+  - name: PGHOST
+    value: "ep-ancient-recipe-d2pmfxiq.database.us-east-1.cloud.databricks.com"
+  - name: PGPORT
+    value: "5432"
+  - name: PGUSER
+    value: "c66e7846-69a4-4cfa-9576-2e937f86f1eb"
+  - name: PGDATABASE
+    value: "oktex"
+  - name: PGSSLMODE
+    value: "require"
+  # Foundation Model (Claude) via Databricks Model Serving for the AI panel.
+  - name: SERVING_ENDPOINT
+    value: "databricks-claude-sonnet-5"

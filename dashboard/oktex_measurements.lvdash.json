@@ -1,0 +1,556 @@
+{
+  "datasets": [
+    {
+      "name": "ds_kpi",
+      "displayName": "ds_kpi",
+      "queryLines": [
+        "SELECT CAST(ROUND(SUM(CASE WHEN d.meter_type='RECEIPT' THEN m.actual_dth END)) AS BIGINT) AS receipts_dth, CAST(ROUND(SUM(CASE WHEN d.meter_type IN ('DELIVERY','INTERCONNECT') THEN m.actual_dth END)) AS BIGINT) AS deliveries_dth, CAST(ROUND(SUM(CASE WHEN d.meter_type='RECEIPT' THEN m.actual_dth END) - SUM(CASE WHEN d.meter_type IN ('DELIVERY','INTERCONNECT') THEN m.actual_dth END)) AS BIGINT) AS imbalance_dth, COUNT(DISTINCT m.meter_id) AS active_meters FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements m JOIN stable_classic_wg38i9_catalog.oneok_okt.dim_meters d USING (meter_id) WHERE m.flow_date = (SELECT MAX(flow_date) FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements)"
+      ]
+    },
+    {
+      "name": "ds_balance",
+      "displayName": "ds_balance",
+      "queryLines": [
+        "SELECT m.flow_date, SUM(CASE WHEN d.meter_type='RECEIPT' THEN m.actual_dth ELSE 0 END) AS receipts_dth, SUM(CASE WHEN d.meter_type IN ('DELIVERY','INTERCONNECT') THEN m.actual_dth ELSE 0 END) AS deliveries_dth FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements m JOIN stable_classic_wg38i9_catalog.oneok_okt.dim_meters d USING (meter_id) GROUP BY m.flow_date ORDER BY m.flow_date"
+      ]
+    },
+    {
+      "name": "ds_segment",
+      "displayName": "ds_segment",
+      "queryLines": [
+        "SELECT d.segment, SUM(m.actual_dth) AS total_dth FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements m JOIN stable_classic_wg38i9_catalog.oneok_okt.dim_meters d USING (meter_id) WHERE m.flow_date = (SELECT MAX(flow_date) FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements) GROUP BY d.segment"
+      ]
+    },
+    {
+      "name": "ds_type",
+      "displayName": "ds_type",
+      "queryLines": [
+        "SELECT d.meter_type, SUM(m.actual_dth) AS total_dth FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements m JOIN stable_classic_wg38i9_catalog.oneok_okt.dim_meters d USING (meter_id) WHERE m.flow_date = (SELECT MAX(flow_date) FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements) GROUP BY d.meter_type"
+      ]
+    },
+    {
+      "name": "ds_meter",
+      "displayName": "ds_meter",
+      "queryLines": [
+        "SELECT d.meter_id, d.meter_name, d.meter_type, d.county, d.state, m.scheduled_dth, m.actual_dth, m.variance_pct, m.pressure_psig FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements m JOIN stable_classic_wg38i9_catalog.oneok_okt.dim_meters d USING (meter_id) WHERE m.flow_date = (SELECT MAX(flow_date) FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements) ORDER BY m.actual_dth DESC"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "overview",
+      "displayName": "Overview",
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layout": [
+        {
+          "widget": {
+            "name": "title",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## OkTex Pipeline \u2014 Daily Measurement Overview"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "subtitle",
+            "multilineTextboxSpec": {
+              "lines": [
+                "Synthetic demo data \u00b7 West Texas Panhandle \u2192 North-Central Oklahoma \u00b7 source: stable_classic_wg38i9_catalog.oneok_okt"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 6,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "kpi-receipts",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_kpi",
+                  "fields": [
+                    {
+                      "name": "receipts_dth",
+                      "expression": "`receipts_dth`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "receipts_dth",
+                  "displayName": "Total Receipts (Dth)"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Total Receipts (Dth)"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "kpi-deliveries",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_kpi",
+                  "fields": [
+                    {
+                      "name": "deliveries_dth",
+                      "expression": "`deliveries_dth`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "deliveries_dth",
+                  "displayName": "Total Deliveries (Dth)"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Total Deliveries (Dth)"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 2,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "kpi-imbalance",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_kpi",
+                  "fields": [
+                    {
+                      "name": "imbalance_dth",
+                      "expression": "`imbalance_dth`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "imbalance_dth",
+                  "displayName": "System Imbalance (Dth)"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "System Imbalance (Dth)"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 5,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "kpi-meters",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_kpi",
+                  "fields": [
+                    {
+                      "name": "active_meters",
+                      "expression": "`active_meters`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "active_meters",
+                  "displayName": "Active Meters"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Active Meters"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 5,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "balance-trend",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_balance",
+                  "fields": [
+                    {
+                      "name": "flow_date",
+                      "expression": "`flow_date`"
+                    },
+                    {
+                      "name": "receipts_dth",
+                      "expression": "SUM(`receipts_dth`)"
+                    },
+                    {
+                      "name": "deliveries_dth",
+                      "expression": "SUM(`deliveries_dth`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "flow_date",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "displayName": "Flow date"
+                },
+                "y": {
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "fields": [
+                    {
+                      "fieldName": "receipts_dth",
+                      "displayName": "Receipts (Dth)"
+                    },
+                    {
+                      "fieldName": "deliveries_dth",
+                      "displayName": "Deliveries + Interconnect (Dth)"
+                    }
+                  ]
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "System Throughput Trend (Receipts vs Deliveries)"
+              },
+              "mark": {
+                "colors": [
+                  "#00A972",
+                  "#2563eb"
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 8,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "by-segment",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_segment",
+                  "fields": [
+                    {
+                      "name": "segment",
+                      "expression": "`segment`"
+                    },
+                    {
+                      "name": "sum(total_dth)",
+                      "expression": "SUM(`total_dth`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "segment",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  },
+                  "displayName": "Segment"
+                },
+                "y": {
+                  "fieldName": "sum(total_dth)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Measured Dth"
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Today's Throughput by Segment"
+              },
+              "mark": {
+                "colors": [
+                  "#FFAB00"
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 14,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "by-type",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_type",
+                  "fields": [
+                    {
+                      "name": "sum(total_dth)",
+                      "expression": "SUM(`total_dth`)"
+                    },
+                    {
+                      "name": "meter_type",
+                      "expression": "`meter_type`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "sum(total_dth)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Measured Dth"
+                },
+                "color": {
+                  "fieldName": "meter_type",
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": "RECEIPT",
+                        "color": "#00A972"
+                      },
+                      {
+                        "value": "DELIVERY",
+                        "color": "#2563eb"
+                      },
+                      {
+                        "value": "INTERCONNECT",
+                        "color": "#e08a1e"
+                      }
+                    ]
+                  },
+                  "displayName": "Meter type"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Today's Flow by Meter Type"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 14,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "meter-table",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_meter",
+                  "fields": [
+                    {
+                      "name": "meter_id",
+                      "expression": "`meter_id`"
+                    },
+                    {
+                      "name": "meter_name",
+                      "expression": "`meter_name`"
+                    },
+                    {
+                      "name": "meter_type",
+                      "expression": "`meter_type`"
+                    },
+                    {
+                      "name": "county",
+                      "expression": "`county`"
+                    },
+                    {
+                      "name": "state",
+                      "expression": "`state`"
+                    },
+                    {
+                      "name": "scheduled_dth",
+                      "expression": "`scheduled_dth`"
+                    },
+                    {
+                      "name": "actual_dth",
+                      "expression": "`actual_dth`"
+                    },
+                    {
+                      "name": "variance_pct",
+                      "expression": "`variance_pct`"
+                    },
+                    {
+                      "name": "pressure_psig",
+                      "expression": "`pressure_psig`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "meter_id",
+                    "displayName": "Meter"
+                  },
+                  {
+                    "fieldName": "meter_name",
+                    "displayName": "Name"
+                  },
+                  {
+                    "fieldName": "meter_type",
+                    "displayName": "Type"
+                  },
+                  {
+                    "fieldName": "county",
+                    "displayName": "County"
+                  },
+                  {
+                    "fieldName": "state",
+                    "displayName": "State"
+                  },
+                  {
+                    "fieldName": "scheduled_dth",
+                    "displayName": "Scheduled Dth"
+                  },
+                  {
+                    "fieldName": "actual_dth",
+                    "displayName": "Actual Dth"
+                  },
+                  {
+                    "fieldName": "variance_pct",
+                    "displayName": "Var %"
+                  },
+                  {
+                    "fieldName": "pressure_psig",
+                    "displayName": "Pressure psig"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Meter Measurements \u2014 Latest Flow Date"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 20,
+            "width": 6,
+            "height": 8
+          }
+        }
+      ]
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    }
+  }
+}

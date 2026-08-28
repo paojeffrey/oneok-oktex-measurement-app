@@ -1,0 +1,44 @@
+# OkTex App — Deployment & Live Verification Evidence
+# Captured: 2026-08-28T22:09:53Z
+# App URL: https://oneok-oktex-pipeline-7474649345910036.aws.databricksapps.com
+
+## App status
+{
+  "name": "oneok-oktex-pipeline",
+  "url": "https://oneok-oktex-pipeline-7474649345910036.aws.databricksapps.com",
+  "app_status": {
+    "message": "App has status: App is running",
+    "state": "RUNNING"
+  },
+  "compute_status": {
+    "message": "App compute is running.",
+    "state": "ACTIVE"
+  },
+  "active_deployment": {
+    "message": "App started successfully",
+    "state": "SUCCEEDED"
+  },
+  "service_principal_client_id": "c66e7846-69a4-4cfa-9576-2e937f86f1eb"
+}
+
+## Application startup logs (excerpt)
+2026-08-28T22:08:34Z [APP] INFO:     Shutting down
+2026-08-28T22:08:35Z [APP] INFO:     Waiting for application shutdown.
+2026-08-28T22:08:35Z [APP] INFO:     Application shutdown complete.
+2026-08-28T22:08:35Z [APP] INFO:     Finished server process [112]
+2026-08-28T22:08:38Z [APP] INFO:     Started server process [147]
+2026-08-28T22:08:38Z [APP] INFO:     Waiting for application startup.
+2026-08-28T22:08:38Z [BUILD] [INFO] Deployment successful
+2026-08-28T22:08:39Z [APP] INFO:     Application startup complete.
+2026-08-28T22:08:39Z [APP] INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2026-08-28T22:08:56Z [APP] INFO:     10.125.49.192:0 - "POST /api/insights HTTP/1.1" 200 OK
+2026-08-28T22:09:18Z [APP] INFO:     Shutting down
+2026-08-28T22:09:18Z [APP] INFO:     Waiting for application shutdown.
+2026-08-28T22:09:18Z [APP] INFO:     Application shutdown complete.
+2026-08-28T22:09:18Z [APP] INFO:     Finished server process [147]
+2026-08-28T22:09:22Z [APP] INFO:     Started server process [187]
+2026-08-28T22:09:22Z [APP] INFO:     Waiting for application startup.
+2026-08-28T22:09:22Z [BUILD] [INFO] Deployment successful
+2026-08-28T22:09:22Z [APP] INFO:     Application startup complete.
+2026-08-28T22:09:22Z [APP] INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2026-08-28T22:09:36Z [APP] INFO:     10.125.67.35:0 - "POST /api/insights HTTP/1.1" 200 OK

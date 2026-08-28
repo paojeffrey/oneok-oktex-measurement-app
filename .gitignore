@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+*.egg-info/
+
+# Node
+node_modules/
+npm-debug.log*
+.vite/
+
+# Keep the built frontend for deployment — do NOT ignore frontend/dist
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Databricks
+.databricks/
+app/.databricks/
+build/.ca_bundle.pem
+
+# Local editor / agent state
+.claude/
+
+# Local scratch
+data/*.parquet

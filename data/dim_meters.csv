@@ -1,0 +1,21 @@
+meter_id,meter_name,meter_type,latitude,longitude,county,state,segment,pipe_diameter_in,capacity_dth,operator,status,commissioned_year
+OKT-001,Levelland Receipt,RECEIPT,33.59,-102.3,Hockley,TX,West Texas,24,120000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2004
+OKT-002,Lubbock Lateral,DELIVERY,33.58,-101.855,Lubbock,TX,West Texas,16,55000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2004
+OKT-003,Plainview Interconnect,INTERCONNECT,34.184,-101.708,Hale,TX,West Texas,20,70000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2001
+OKT-004,Tulia Receipt,RECEIPT,34.535,-101.76,Swisher,TX,West Texas,20,85000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2004
+OKT-005,Canyon Delivery,DELIVERY,34.98,-101.92,Randall,TX,Panhandle,16,42000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2007
+OKT-006,Amarillo South,DELIVERY,35.15,-101.85,Potter,TX,Panhandle,16,60000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2014
+OKT-007,Amarillo Hub,INTERCONNECT,35.222,-101.831,Potter,TX,Panhandle,30,140000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2011
+OKT-008,Carson Receipt,RECEIPT,35.35,-101.38,Carson,TX,Panhandle,24,110000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2014
+OKT-009,Pampa Delivery,DELIVERY,35.54,-100.96,Gray,TX,Panhandle,16,48000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2001
+OKT-010,Perryton Receipt,RECEIPT,36.4,-100.8,Ochiltree,TX,Panhandle,24,130000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,1998
+OKT-011,Guymon Interconnect,INTERCONNECT,36.68,-101.48,Texas,OK,OK Panhandle,20,75000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2007
+OKT-012,Beaver Receipt,RECEIPT,36.815,-100.52,Beaver,OK,OK Panhandle,24,100000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2004
+OKT-013,Woodward Hub,INTERCONNECT,36.433,-99.39,Woodward,OK,Western OK,30,150000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2007
+OKT-014,Mooreland Delivery,DELIVERY,36.44,-99.2,Woodward,OK,Western OK,16,45000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2004
+OKT-015,Fairview Receipt,RECEIPT,36.27,-98.48,Major,OK,Western OK,20,80000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2011
+OKT-016,Enid Delivery,DELIVERY,36.4,-97.88,Garfield,OK,North Central,20,90000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,1998
+OKT-017,Enid Terminal,DELIVERY,36.42,-97.83,Garfield,OK,North Central,16,52000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2011
+OKT-018,Medford Interconnect,INTERCONNECT,36.8,-97.73,Grant,OK,North Central,24,95000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2011
+OKT-019,Pond Creek Receipt,RECEIPT,36.67,-97.8,Grant,OK,North Central,20,70000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,1998
+OKT-020,Kremlin Delivery,DELIVERY,36.55,-97.82,Garfield,OK,North Central,16,40000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2011
