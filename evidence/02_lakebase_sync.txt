@@ -12,7 +12,7 @@ table_name        | rows
 -------------------------+------
  dim_meters              |   43
  fact_daily_measurements | 2580
- pipeline_segments       |   25
+ pipeline_segments       |   17
 (3 rows)
 
 ### date coverage

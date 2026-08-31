@@ -28,7 +28,7 @@ OKT-OK3-03,OK-3 CB (192137),DELIVERY,34.124,-98.512,Wichita,TX,Red River Border,
 OKT-OK4-01,Atmos OK-4,BIDIRECTIONAL,34.201,-98.204,Cotton,OK,Red River Border,OK #4,24,111000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
 OKT-OK4-02,OK-4 Rec,RECEIPT,34.208,-98.192,Cotton,OK,Red River Border,OK #4,24,129000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
 OKT-OK9-01,WesTex Hemphill IC,BIDIRECTIONAL,35.8,-100.24,Hemphill,TX,Western Oklahoma,OK #9,24,71000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
-OKT-OK9-02,Reydon TBS,DELIVERY,35.603,-99.77,Roger Mills,OK,Western Oklahoma,OK #9,16,59000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-OK9-02,Reydon TBS,DELIVERY,35.66,-100.1,Roger Mills,OK,Western Oklahoma,OK #9,16,59000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
 OKT-OK9-03,OFS Viper Fuel Gas,DELIVERY,35.869,-99.799,Roger Mills,OK,Western Oklahoma,OK #9,16,51000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
 OKT-OK9-04,OFS Compressor Fuel,DELIVERY,35.789,-99.472,Dewey,OK,Western Oklahoma,OK #9,16,42000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
 OKT-OK9-05,OFS Crescendo Fuel Gas,DELIVERY,35.801,-99.451,Dewey,OK,Western Oklahoma,OK #9,16,66000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
@@ -37,8 +37,8 @@ OKT-OK9-07,OGT-Pool,DELIVERY,35.749,-99.168,Custer,OK,Western Oklahoma,OK #9,16,
 OKT-OK9-08,OGT Aledo,DELIVERY,35.916,-99.227,Dewey,OK,Western Oklahoma,OK #9,16,35000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
 OKT-OK9-09,PEPL Aledo,DELIVERY,35.899,-98.966,Blaine,OK,Western Oklahoma,OK #9,16,27000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
 OKT-O12-01,Enogex,DELIVERY,36.282,-98.26,Major,OK,Central Oklahoma,OK #12,16,28000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
-OKT-O12-02,OGT Lefty,DELIVERY,36.08,-98.183,Blaine,OK,Central Oklahoma,OK #12,16,62000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-O12-02,OGT Lefty,DELIVERY,36.07,-97.85,Blaine,OK,Central Oklahoma,OK #12,16,62000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
 OKT-O12-03,Mustang/Rodman Residue,RECEIPT,36.094,-97.787,Kingfisher,OK,Central Oklahoma,OK #12,24,142000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
 OKT-O12-04,Southern Star,DELIVERY,36.662,-98.044,Garfield,OK,Central Oklahoma,OK #12,16,73000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
-OKT-O11-01,OWT Red River,BIDIRECTIONAL,35.381,-99.736,Roger Mills,OK,Caprock Spur,CAPROCK OK #11,24,104000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
-OKT-O11-02,OGT Caprock,BIDIRECTIONAL,35.242,-99.733,Beckham,OK,Caprock Spur,CAPROCK OK #11,24,120000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-O11-01,OWT Red River,BIDIRECTIONAL,35.36,-99.95,Roger Mills,OK,Caprock Spur,CAPROCK OK #11,24,104000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-O11-02,OGT Caprock,BIDIRECTIONAL,35.3,-99.94,Beckham,OK,Caprock Spur,CAPROCK OK #11,24,120000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE

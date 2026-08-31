@@ -44,7 +44,7 @@ build/generate_data.py    (REAL meters+route from public OKT map; synthetic 60-d
         ├─► build/load_delta.py ─────►  Unity Catalog Delta
         │                               stable_classic_wg38i9_catalog.oneok_okt
         │                                 · dim_meters (43)
-        │                                 · pipeline_segments (25)
+        │                                 · pipeline_segments (17)
         │                                 · fact_daily_measurements (2,580)
         │                                       │
         │                                       └─►  Lakeview dashboard (dashboard/)
@@ -69,9 +69,11 @@ build/generate_data.py    (REAL meters+route from public OKT map; synthetic 60-d
   (DEL NORTE #1/#4/#5, OK #1–#12, CAPROCK #11), pipe diameter, capacity. Spans
   three real regions: El Paso County TX, the Red River TX/OK border, and
   western/central Oklahoma.
-- **`pipeline_segments`** — 25 vertices across 6 named route segments (El Paso
-  lateral, Oklahoma mainline, Enogex east spur, Caprock spur, and two Red River
-  border feeds), each drawn as its own polyline.
+- **`pipeline_segments`** — 17 vertices across 5 named route segments matching
+  the public map: El Paso lateral, the OK-09 mainline (Hemphill→OFS Viper→OFS
+  Leedy→Aledo cluster), the Reydon stub, the isolated OK-11 Caprock segment, and
+  the isolated OK-12 line (Southern Star→Enogex→Mustang). Each is its own polyline;
+  the Red River border crossings appear as points (detail-inset only on the map).
 - **`fact_daily_measurements`** — 2,580 rows (43 meters × 60 **gas days**):
   scheduled & actual Dth, pressure, temperature, scheduled-vs-actual variance.
 

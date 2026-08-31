@@ -3,24 +3,16 @@ seq,latitude,longitude,segment_name
 2,31.812,-106.52,West Texas — El Paso lateral
 3,31.91,-106.606,West Texas — El Paso lateral
 4,32.003,-106.603,West Texas — El Paso lateral
-5,35.8,-100.24,Oklahoma mainline
-6,35.869,-99.799,Oklahoma mainline
-7,35.801,-99.451,Oklahoma mainline
-8,35.749,-99.168,Oklahoma mainline
-9,35.916,-99.227,Oklahoma mainline
-10,35.899,-98.966,Oklahoma mainline
-11,36.282,-98.26,Oklahoma mainline
-12,36.662,-98.044,Oklahoma mainline
-13,36.282,-98.26,Enogex east spur
-14,36.08,-98.183,Enogex east spur
-15,36.094,-97.787,Enogex east spur
-16,35.603,-99.77,Caprock spur (OK-11)
-17,35.381,-99.736,Caprock spur (OK-11)
-18,35.242,-99.733,Caprock spur (OK-11)
-19,34.302,-99.742,Red River border feed
-20,34.7,-99.76,Red River border feed
-21,35.242,-99.733,Red River border feed
-22,34.128,-98.502,Wilbarger/Wichita feed
-23,34.142,-99.098,Wilbarger/Wichita feed
-24,34.7,-99.4,Wilbarger/Wichita feed
-25,35.603,-99.77,Wilbarger/Wichita feed
+5,35.8,-100.24,Oklahoma mainline (OK-09)
+6,35.869,-99.799,Oklahoma mainline (OK-09)
+7,35.812,-99.462,Oklahoma mainline (OK-09)
+8,35.86,-99.2,Oklahoma mainline (OK-09)
+9,35.899,-98.966,Oklahoma mainline (OK-09)
+10,35.782,-100.15,Reydon stub (OK-09)
+11,35.66,-100.1,Reydon stub (OK-09)
+12,35.44,-100.05,Caprock segment (OK-11)
+13,35.355,-99.945,Caprock segment (OK-11)
+14,35.28,-99.86,Caprock segment (OK-11)
+15,36.662,-98.044,Enogex line (OK-12)
+16,36.282,-98.26,Enogex line (OK-12)
+17,36.094,-97.787,Enogex line (OK-12)

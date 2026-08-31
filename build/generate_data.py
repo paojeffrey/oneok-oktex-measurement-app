@@ -68,7 +68,7 @@ METERS = [
 
     # ---- Western / Central Oklahoma cluster (the main red line) ----
     ("OKT-OK9-01", "WesTex Hemphill IC",     "BIDIRECTIONAL", 35.800, -100.240, "Hemphill", "TX", "Western Oklahoma", "OK #9"),
-    ("OKT-OK9-02", "Reydon TBS",             "DELIVERY",      35.603, -99.770,  "Roger Mills","OK", "Western Oklahoma", "OK #9"),
+    ("OKT-OK9-02", "Reydon TBS",             "DELIVERY",      35.660, -100.100,  "Roger Mills","OK", "Western Oklahoma", "OK #9"),
     ("OKT-OK9-03", "OFS Viper Fuel Gas",     "DELIVERY",      35.869, -99.799,  "Roger Mills","OK", "Western Oklahoma", "OK #9"),
     ("OKT-OK9-04", "OFS Compressor Fuel",    "DELIVERY",      35.789, -99.472,  "Dewey",    "OK", "Western Oklahoma", "OK #9"),
     ("OKT-OK9-05", "OFS Crescendo Fuel Gas", "DELIVERY",      35.801, -99.451,  "Dewey",    "OK", "Western Oklahoma", "OK #9"),
@@ -78,12 +78,12 @@ METERS = [
     ("OKT-OK9-09", "PEPL Aledo",             "DELIVERY",      35.899, -98.966,  "Blaine",   "OK", "Western Oklahoma", "OK #9"),
     # OK #12 — northern/eastern deliveries
     ("OKT-O12-01", "Enogex",                 "DELIVERY",      36.282, -98.260,  "Major",    "OK", "Central Oklahoma", "OK #12"),
-    ("OKT-O12-02", "OGT Lefty",              "DELIVERY",      36.080, -98.183,  "Blaine",   "OK", "Central Oklahoma", "OK #12"),
+    ("OKT-O12-02", "OGT Lefty",              "DELIVERY",      36.070, -97.850,  "Blaine",   "OK", "Central Oklahoma", "OK #12"),
     ("OKT-O12-03", "Mustang/Rodman Residue", "RECEIPT",       36.094, -97.787,  "Kingfisher","OK", "Central Oklahoma", "OK #12"),
     ("OKT-O12-04", "Southern Star",          "DELIVERY",      36.662, -98.044,  "Garfield", "OK", "Central Oklahoma", "OK #12"),
     # CAPROCK OK #11 — southern bi-directional spur
-    ("OKT-O11-01", "OWT Red River",          "BIDIRECTIONAL", 35.381, -99.736,  "Roger Mills","OK", "Caprock Spur", "CAPROCK OK #11"),
-    ("OKT-O11-02", "OGT Caprock",            "BIDIRECTIONAL", 35.242, -99.733,  "Beckham",  "OK", "Caprock Spur", "CAPROCK OK #11"),
+    ("OKT-O11-01", "OWT Red River",          "BIDIRECTIONAL", 35.360, -99.950,  "Roger Mills","OK", "Caprock Spur", "CAPROCK OK #11"),
+    ("OKT-O11-02", "OGT Caprock",            "BIDIRECTIONAL", 35.300, -99.940,  "Beckham",  "OK", "Caprock Spur", "CAPROCK OK #11"),
 ]
 
 # Capacity (Dth/d) by role — receipts/interconnects larger than local deliveries.
@@ -95,19 +95,24 @@ DIA_BY_TYPE = {"RECEIPT": 24, "BIDIRECTIONAL": 24, "DELIVERY": 16}
 # the red "OkTex Pipeline" line on the public overview map.
 # ---------------------------------------------------------------------------
 ROUTE_SEGMENTS = [
+    # Far-west El Paso lateral (Area 2 inset) — short local run near Canutillo/Anthony.
     ("West Texas — El Paso lateral", [
         (31.752, -106.443), (31.812, -106.520), (31.910, -106.606), (32.003, -106.603)]),
-    ("Oklahoma mainline", [
-        (35.800, -100.240), (35.869, -99.799), (35.801, -99.451), (35.749, -99.168),
-        (35.916, -99.227), (35.899, -98.966), (36.282, -98.260), (36.662, -98.044)]),
-    ("Enogex east spur", [
-        (36.282, -98.260), (36.080, -98.183), (36.094, -97.787)]),
-    ("Caprock spur (OK-11)", [
-        (35.603, -99.770), (35.381, -99.736), (35.242, -99.733)]),
-    ("Red River border feed", [
-        (34.302, -99.742), (34.700, -99.760), (35.242, -99.733)]),
-    ("Wilbarger/Wichita feed", [
-        (34.128, -98.502), (34.142, -99.098), (34.700, -99.400), (35.603, -99.770)]),
+    # OK-09 mainline: WesTex Hemphill IC -> OFS Viper -> OFS Leedy (Detail 5A) ->
+    # Aledo cluster (OGT Aledo / OGT-Pool / PEPL Aledo). Roughly straight, W->E.
+    ("Oklahoma mainline (OK-09)", [
+        (35.800, -100.240), (35.869, -99.799), (35.812, -99.462),
+        (35.860, -99.200), (35.899, -98.966)]),
+    # Short stub dropping off the mainline near Hemphill down to Reydon TBS.
+    ("Reydon stub (OK-09)", [
+        (35.782, -100.150), (35.660, -100.100)]),
+    # OK-11: isolated segment near the TX/OK border through OWT Red River / OGT Caprock.
+    ("Caprock segment (OK-11)", [
+        (35.440, -100.050), (35.355, -99.945), (35.280, -99.860)]),
+    # OK-12: isolated line Southern Star -> Enogex -> Mustang/Rodman (OGT Lefty co-located).
+    # Not connected to the OK-09 mainline on the system map.
+    ("Enogex line (OK-12)", [
+        (36.662, -98.044), (36.282, -98.260), (36.094, -97.787)]),
 ]
 
 
