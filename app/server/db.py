@@ -52,20 +52,40 @@ def _conninfo() -> str:
 
 # Deferred open — opened explicitly in the FastAPI lifespan so startup fails
 # fast if the database is unreachable. 45-min recycle beats the 1-hour token.
+#
+# The Lakebase Autoscaling endpoint scales to zero when idle, which silently
+# kills pooled connections ("SSL error: unexpected eof while reading" on next
+# use). `check=ConnectionPool.check_connection` pings each connection before
+# handing it out and transparently discards/replaces dead ones; min_size=0 lets
+# the pool drain to nothing while the endpoint is suspended.
 pool = ConnectionPool(
     conninfo=_conninfo(),
     connection_class=OAuthConnection,
-    min_size=1,
+    min_size=0,
     max_size=8,
     max_lifetime=2700,
+    check=ConnectionPool.check_connection,
     open=False,
 )
 
 
-def query(sql: str, params: tuple | None = None) -> list[dict]:
-    """Run a read query and return a list of dict rows."""
-    with pool.connection() as conn:
-        with conn.cursor() as cur:
-            cur.execute(sql, params or ())
-            cols = [c.name for c in cur.description]
-            return [dict(zip(cols, row)) for row in cur.fetchall()]
+def query(sql: str, params: tuple | None = None, _retries: int = 2) -> list[dict]:
+    """Run a read query and return a list of dict rows.
+
+    Retries transient connection failures — the first request after the
+    Autoscaling endpoint wakes from scale-to-zero can still hit a stale socket.
+    """
+    last_exc = None
+    for attempt in range(_retries + 1):
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(sql, params or ())
+                    cols = [c.name for c in cur.description]
+                    return [dict(zip(cols, row)) for row in cur.fetchall()]
+        except psycopg.OperationalError as exc:
+            last_exc = exc
+            if attempt < _retries:
+                continue
+            raise
+    raise last_exc  # unreachable, keeps type checkers happy
