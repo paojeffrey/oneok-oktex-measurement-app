@@ -17,41 +17,41 @@ import urllib.request
 FQ = f"{CATALOG}.{SCHEMA}"
 ROOT = Path(__file__).resolve().parent.parent
 
-MAXDAY = f"(SELECT MAX(flow_date) FROM {FQ}.fact_daily_measurements)"
+MAXDAY = f"(SELECT MAX(gas_day) FROM {FQ}.fact_daily_measurements)"
 
 DATASETS = {
     "ds_kpi": (
         f"SELECT "
         f"CAST(ROUND(SUM(CASE WHEN d.meter_type='RECEIPT' THEN m.actual_dth END)) AS BIGINT) AS receipts_dth, "
-        f"CAST(ROUND(SUM(CASE WHEN d.meter_type IN ('DELIVERY','INTERCONNECT') THEN m.actual_dth END)) AS BIGINT) AS deliveries_dth, "
+        f"CAST(ROUND(SUM(CASE WHEN d.meter_type IN ('DELIVERY','BIDIRECTIONAL') THEN m.actual_dth END)) AS BIGINT) AS deliveries_dth, "
         f"CAST(ROUND(SUM(CASE WHEN d.meter_type='RECEIPT' THEN m.actual_dth END) "
-        f"- SUM(CASE WHEN d.meter_type IN ('DELIVERY','INTERCONNECT') THEN m.actual_dth END)) AS BIGINT) AS imbalance_dth, "
+        f"- SUM(CASE WHEN d.meter_type IN ('DELIVERY','BIDIRECTIONAL') THEN m.actual_dth END)) AS BIGINT) AS imbalance_dth, "
         f"COUNT(DISTINCT m.meter_id) AS active_meters "
         f"FROM {FQ}.fact_daily_measurements m JOIN {FQ}.dim_meters d USING (meter_id) "
-        f"WHERE m.flow_date = {MAXDAY}"
+        f"WHERE m.gas_day = {MAXDAY}"
     ),
     "ds_balance": (
-        f"SELECT m.flow_date, "
+        f"SELECT m.gas_day, "
         f"SUM(CASE WHEN d.meter_type='RECEIPT' THEN m.actual_dth ELSE 0 END) AS receipts_dth, "
-        f"SUM(CASE WHEN d.meter_type IN ('DELIVERY','INTERCONNECT') THEN m.actual_dth ELSE 0 END) AS deliveries_dth "
+        f"SUM(CASE WHEN d.meter_type IN ('DELIVERY','BIDIRECTIONAL') THEN m.actual_dth ELSE 0 END) AS deliveries_dth "
         f"FROM {FQ}.fact_daily_measurements m JOIN {FQ}.dim_meters d USING (meter_id) "
-        f"GROUP BY m.flow_date ORDER BY m.flow_date"
+        f"GROUP BY m.gas_day ORDER BY m.gas_day"
     ),
     "ds_segment": (
         f"SELECT d.segment, SUM(m.actual_dth) AS total_dth "
         f"FROM {FQ}.fact_daily_measurements m JOIN {FQ}.dim_meters d USING (meter_id) "
-        f"WHERE m.flow_date = {MAXDAY} GROUP BY d.segment"
+        f"WHERE m.gas_day = {MAXDAY} GROUP BY d.segment"
     ),
     "ds_type": (
         f"SELECT d.meter_type, SUM(m.actual_dth) AS total_dth "
         f"FROM {FQ}.fact_daily_measurements m JOIN {FQ}.dim_meters d USING (meter_id) "
-        f"WHERE m.flow_date = {MAXDAY} GROUP BY d.meter_type"
+        f"WHERE m.gas_day = {MAXDAY} GROUP BY d.meter_type"
     ),
     "ds_meter": (
         f"SELECT d.meter_id, d.meter_name, d.meter_type, d.county, d.state, "
         f"m.scheduled_dth, m.actual_dth, m.variance_pct, m.pressure_psig "
         f"FROM {FQ}.fact_daily_measurements m JOIN {FQ}.dim_meters d USING (meter_id) "
-        f"WHERE m.flow_date = {MAXDAY} ORDER BY m.actual_dth DESC"
+        f"WHERE m.gas_day = {MAXDAY} ORDER BY m.actual_dth DESC"
     ),
 }
 
@@ -100,13 +100,13 @@ def build_serialized():
     # Balance trend (full width line, two Y)
     layout.append({"widget": {"name": "balance-trend", "queries": [{"name": "main_query", "query": {
         "datasetName": "ds_balance", "fields": [
-            {"name": "flow_date", "expression": "`flow_date`"},
+            {"name": "gas_day", "expression": "`gas_day`"},
             {"name": "receipts_dth", "expression": "SUM(`receipts_dth`)"},
             {"name": "deliveries_dth", "expression": "SUM(`deliveries_dth`)"},
         ], "disaggregated": False}}],
         "spec": {"version": 3, "widgetType": "line",
                  "encodings": {
-                     "x": {"fieldName": "flow_date", "scale": {"type": "temporal"}, "displayName": "Flow date"},
+                     "x": {"fieldName": "gas_day", "scale": {"type": "temporal"}, "displayName": "Flow date"},
                      "y": {"scale": {"type": "quantitative"}, "fields": [
                          {"fieldName": "receipts_dth", "displayName": "Receipts (Dth)"},
                          {"fieldName": "deliveries_dth", "displayName": "Deliveries + Interconnect (Dth)"}]},
@@ -137,7 +137,7 @@ def build_serialized():
                                "color": {"fieldName": "meter_type", "scale": {"type": "categorical",
                                    "mappings": [{"value": "RECEIPT", "color": "#00A972"},
                                                 {"value": "DELIVERY", "color": "#2563eb"},
-                                                {"value": "INTERCONNECT", "color": "#e08a1e"}]}, "displayName": "Meter type"}},
+                                                {"value": "BIDIRECTIONAL", "color": "#e08a1e"}]}, "displayName": "Meter type"}},
                  "frame": {"showTitle": True, "title": "Today's Flow by Meter Type"}}},
         "position": {"x": 3, "y": 14, "width": 3, "height": 6}})
 
@@ -159,18 +159,36 @@ def build_serialized():
             "uiSettings": {"theme": {"widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"}}}
 
 
+# Existing dashboard to update in place (avoid creating duplicates).
+DASHBOARD_ID = "01f1a32e13fa1331a64126e1b1b25f76"
+
+
 def deploy(serialized, tok):
-    me = json.loads(subprocess.check_output(
-        ["databricks", "current-user", "me", "--profile", PROFILE], text=True))["userName"]
-    payload = {
+    from dbx_sql import _post, _get, HOST  # authed helpers with SSL ctx
+    import urllib.request
+    body = {
         "display_name": "OkTex Pipeline — Daily Measurements",
         "warehouse_id": WAREHOUSE_ID,
-        "parent_path": f"/Users/{me}",
         "serialized_dashboard": json.dumps(serialized),
     }
-    from dbx_sql import _post  # reuse authed POST with SSL ctx
-    resp = _post("/api/2.0/lakeview/dashboards", payload, tok)
-    return resp
+    if DASHBOARD_ID:
+        # PATCH existing dashboard
+        req = urllib.request.Request(
+            HOST + f"/api/2.0/lakeview/dashboards/{DASHBOARD_ID}",
+            data=json.dumps(body).encode(),
+            headers={"Authorization": f"Bearer {tok}", "Content-Type": "application/json"},
+            method="PATCH")
+        from dbx_sql import _CTX
+        with urllib.request.urlopen(req, timeout=120, context=_CTX) as r:
+            resp = json.loads(r.read().decode())
+        # publish the updated version
+        _post(f"/api/2.0/lakeview/dashboards/{DASHBOARD_ID}/published",
+              {"embed_credentials": True, "warehouse_id": WAREHOUSE_ID}, tok)
+        return resp
+    me = json.loads(subprocess.check_output(
+        ["databricks", "current-user", "me", "--profile", PROFILE], text=True))["userName"]
+    body["parent_path"] = f"/Users/{me}"
+    return _post("/api/2.0/lakeview/dashboards", body, tok)
 
 
 if __name__ == "__main__":

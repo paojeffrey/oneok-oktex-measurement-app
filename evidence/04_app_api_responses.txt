@@ -1,140 +1,111 @@
 # OkTex App — Live API responses (read live from Lakebase Postgres)
-# Captured: 2026-08-28T22:14:46Z from https://oneok-oktex-pipeline-7474649345910036.aws.databricksapps.com
+# Captured: 2026-08-31T13:40:46Z from https://oneok-oktex-pipeline-7474649345910036.aws.databricksapps.com
+# Meters/route are the REAL OkTex stations from the public OKT system map; quantities synthetic.
 
 ## GET /api/health
 {"status":"ok"}
 
-## GET /api/measurements  (kpis + top 3 meters by measured Dth)
+## GET /api/measurements  (KPIs + top 3 meters by measured Dth)
 {
-  "flow_date": "2026-08-28",
+  "gas_day": "2026-08-28",
   "kpis": {
-    "total_receipts_dth": 449628,
-    "total_deliveries_dth": 460432,
-    "imbalance_dth": -10804,
-    "imbalance_pct": -2.35,
-    "active_meters": 20
+    "total_receipts_dth": 536264,
+    "total_deliveries_dth": 536907,
+    "imbalance_dth": -643,
+    "imbalance_pct": -0.12,
+    "active_meters": 43
   },
   "meters": [
     {
-      "meter_id": "OKT-010",
-      "meter_name": "Perryton Receipt",
+      "meter_id": "OKT-DN1-01",
+      "meter_name": "Del Norte 1",
       "meter_type": "RECEIPT",
-      "latitude": 36.4,
-      "longitude": -100.8,
-      "county": "Ochiltree",
+      "latitude": 31.752,
+      "longitude": -106.443,
+      "county": "El Paso",
       "state": "TX",
-      "segment": "Panhandle",
-      "capacity_dth": 130000,
-      "flow_date": "2026-08-28",
-      "scheduled_dth": 93385,
-      "actual_dth": 96305,
-      "pressure_psig": 806.5,
-      "temperature_f": 81.4,
-      "variance_pct": 3.13
+      "segment": "West Texas — El Paso",
+      "capacity_dth": 145000,
+      "gas_day": "2026-08-28",
+      "scheduled_dth": 90943,
+      "actual_dth": 88718,
+      "pressure_psig": 840.7,
+      "temperature_f": 79.8,
+      "variance_pct": -2.45
     },
     {
-      "meter_id": "OKT-001",
-      "meter_name": "Levelland Receipt",
+      "meter_id": "OKT-OK4-02",
+      "meter_name": "OK-4 Rec",
       "meter_type": "RECEIPT",
-      "latitude": 33.59,
-      "longitude": -102.3,
-      "county": "Hockley",
-      "state": "TX",
-      "segment": "West Texas",
-      "capacity_dth": 120000,
-      "flow_date": "2026-08-28",
-      "scheduled_dth": 75829,
-      "actual_dth": 72494,
-      "pressure_psig": 921.5,
-      "temperature_f": 82.6,
-      "variance_pct": -4.4
-    },
-    {
-      "meter_id": "OKT-013",
-      "meter_name": "Woodward Hub",
-      "meter_type": "INTERCONNECT",
-      "latitude": 36.433,
-      "longitude": -99.39,
-      "county": "Woodward",
+      "latitude": 34.208,
+      "longitude": -98.192,
+      "county": "Cotton",
       "state": "OK",
-      "segment": "Western OK",
-      "capacity_dth": 150000,
-      "flow_date": "2026-08-28",
-      "scheduled_dth": 70170,
-      "actual_dth": 72320,
-      "pressure_psig": 783.1,
-      "temperature_f": 85.0,
-      "variance_pct": 3.06
+      "segment": "Red River Border",
+      "capacity_dth": 129000,
+      "gas_day": "2026-08-28",
+      "scheduled_dth": 75921,
+      "actual_dth": 73248,
+      "pressure_psig": 732.1,
+      "temperature_f": 89.0,
+      "variance_pct": -3.52
+    },
+    {
+      "meter_id": "OKT-O12-03",
+      "meter_name": "Mustang/Rodman Residue",
+      "meter_type": "RECEIPT",
+      "latitude": 36.094,
+      "longitude": -97.787,
+      "county": "Kingfisher",
+      "state": "OK",
+      "segment": "Central Oklahoma",
+      "capacity_dth": 142000,
+      "gas_day": "2026-08-28",
+      "scheduled_dth": 71764,
+      "actual_dth": 73216,
+      "pressure_psig": 846.9,
+      "temperature_f": 83.3,
+      "variance_pct": 2.02
     }
   ]
 }
 
-## GET /api/route  (first 4 of 14 vertices)
+## GET /api/route  (named pipeline segments)
 {
-  "route_count": 14,
-  "first4": [
-    {
-      "seq": 1,
-      "latitude": 33.59,
-      "longitude": -102.3,
-      "segment_name": "West Texas"
-    },
-    {
-      "seq": 2,
-      "latitude": 33.58,
-      "longitude": -101.855,
-      "segment_name": "West Texas"
-    },
-    {
-      "seq": 3,
-      "latitude": 34.184,
-      "longitude": -101.708,
-      "segment_name": "West Texas"
-    },
-    {
-      "seq": 4,
-      "latitude": 34.535,
-      "longitude": -101.76,
-      "segment_name": "West Texas"
-    }
+  "vertices": 25,
+  "segments": [
+    "Caprock spur (OK-11)",
+    "Enogex east spur",
+    "Oklahoma mainline",
+    "Red River border feed",
+    "West Texas — El Paso lateral",
+    "Wilbarger/Wichita feed"
   ]
 }
 
-## GET /api/trend  (last 5 of 60 days)
+## GET /api/meters  (count + type breakdown + sample)
 {
-  "days": 60,
-  "last5": [
-    {
-      "flow_date": "2026-08-24",
-      "receipts_dth": 448672,
-      "deliveries_dth": 441879
-    },
-    {
-      "flow_date": "2026-08-25",
-      "receipts_dth": 466251,
-      "deliveries_dth": 461152
-    },
-    {
-      "flow_date": "2026-08-26",
-      "receipts_dth": 438628,
-      "deliveries_dth": 462870
-    },
-    {
-      "flow_date": "2026-08-27",
-      "receipts_dth": 464369,
-      "deliveries_dth": 472383
-    },
-    {
-      "flow_date": "2026-08-28",
-      "receipts_dth": 449628,
-      "deliveries_dth": 460432
-    }
-  ]
+  "count": 43,
+  "sample": {
+    "meter_id": "OKT-DN1-01",
+    "meter_name": "Del Norte 1",
+    "meter_type": "RECEIPT",
+    "latitude": 31.752,
+    "longitude": -106.443,
+    "county": "El Paso",
+    "state": "TX",
+    "segment": "West Texas — El Paso",
+    "station_group": "DEL NORTE #1",
+    "pipe_diameter_in": 24,
+    "capacity_dth": 145000,
+    "operator": "OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",
+    "status": "ACTIVE"
+  }
 }
 
 ## POST /api/insights  (Claude Sonnet 5 via Databricks Model Serving)
 {
   "model_used": true,
-  "flow_date": "2026-08-28",
-  "summary": "**OKT System Operations Summary — August 28, 2026**\n\nThe OkTex system received 449,628 Dth against total deliveries/interconnect flows of 460,432 Dth, resulting in a net negative imbalance of -10,804 Dth (approximately -2.3% of receipts), indicating the system drew on linepack or storage to meet demand today. Variance was most pronounced at Guymon Interconnect (-5.85%), Carson Receipt (-4.74%), and Levelland Receipt (-4.4%) on the under-delivery side, while Mooreland Delivery (+4.69%) and Medford Interconnect (+4.05%) ran notably over schedule. The offsetting pattern—receipt-side shortfalls paired with delivery-side overages at Mooreland and Medford—is a likely primary driver of the day's imbalance. Recommend flagging Guymon and Carson for nomination/scheduling review, as their consistent underperformance combined with strong delivery pulls at Mooreland and Medford is compounding system shortfall risk if the trend persists into tomorrow's cycle."
+  "gas_day": "2026-08-28",
+  "summary": "The OKT system flowed 536,264 Dth of receipts against 536,907 Dth of deliveries/interconnects, leaving a modest imbalance of -643 Dth (0.12% of throughput)—well within normal operational tolerance. Receipt-side variance was the primary driver of underdelivery, with Jackson T. Wichita (-5.38%), OGT Caprock (-5.45%), Frank Lehman (-5.4%), and OK-4 Rec (-3.52%) all coming in meaningfully under schedule, while Mustang/Rodman Residue (+2.02%) and Atmos OK-4 (+2.81%) partially offset the shortfall. On the delivery side, WesTex Hemphill IC (+5.84%), PNM-Anthony (+5.13%), and Southern Star (+5.46%) delivered notably above nominations, while PEPL Aledo (-5.7%) and OK-3 CB (-5.57%) lagged furthest behind. Given the concentration of high-variance receipt points along the El Paso/Wichita corridor, operations should verify upstream nomination accuracy or flow-control issues at Jackson T. Wichita and Frank Lehman before the next"
 }

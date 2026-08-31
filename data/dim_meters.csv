@@ -1,21 +1,44 @@
-meter_id,meter_name,meter_type,latitude,longitude,county,state,segment,pipe_diameter_in,capacity_dth,operator,status,commissioned_year
-OKT-001,Levelland Receipt,RECEIPT,33.59,-102.3,Hockley,TX,West Texas,24,120000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2004
-OKT-002,Lubbock Lateral,DELIVERY,33.58,-101.855,Lubbock,TX,West Texas,16,55000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2004
-OKT-003,Plainview Interconnect,INTERCONNECT,34.184,-101.708,Hale,TX,West Texas,20,70000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2001
-OKT-004,Tulia Receipt,RECEIPT,34.535,-101.76,Swisher,TX,West Texas,20,85000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2004
-OKT-005,Canyon Delivery,DELIVERY,34.98,-101.92,Randall,TX,Panhandle,16,42000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2007
-OKT-006,Amarillo South,DELIVERY,35.15,-101.85,Potter,TX,Panhandle,16,60000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2014
-OKT-007,Amarillo Hub,INTERCONNECT,35.222,-101.831,Potter,TX,Panhandle,30,140000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2011
-OKT-008,Carson Receipt,RECEIPT,35.35,-101.38,Carson,TX,Panhandle,24,110000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2014
-OKT-009,Pampa Delivery,DELIVERY,35.54,-100.96,Gray,TX,Panhandle,16,48000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2001
-OKT-010,Perryton Receipt,RECEIPT,36.4,-100.8,Ochiltree,TX,Panhandle,24,130000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,1998
-OKT-011,Guymon Interconnect,INTERCONNECT,36.68,-101.48,Texas,OK,OK Panhandle,20,75000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2007
-OKT-012,Beaver Receipt,RECEIPT,36.815,-100.52,Beaver,OK,OK Panhandle,24,100000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2004
-OKT-013,Woodward Hub,INTERCONNECT,36.433,-99.39,Woodward,OK,Western OK,30,150000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2007
-OKT-014,Mooreland Delivery,DELIVERY,36.44,-99.2,Woodward,OK,Western OK,16,45000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2004
-OKT-015,Fairview Receipt,RECEIPT,36.27,-98.48,Major,OK,Western OK,20,80000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2011
-OKT-016,Enid Delivery,DELIVERY,36.4,-97.88,Garfield,OK,North Central,20,90000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,1998
-OKT-017,Enid Terminal,DELIVERY,36.42,-97.83,Garfield,OK,North Central,16,52000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2011
-OKT-018,Medford Interconnect,INTERCONNECT,36.8,-97.73,Grant,OK,North Central,24,95000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2011
-OKT-019,Pond Creek Receipt,RECEIPT,36.67,-97.8,Grant,OK,North Central,20,70000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,1998
-OKT-020,Kremlin Delivery,DELIVERY,36.55,-97.82,Garfield,OK,North Central,16,40000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE,2011
+meter_id,meter_name,meter_type,latitude,longitude,county,state,segment,station_group,pipe_diameter_in,capacity_dth,operator,status
+OKT-DN1-01,Del Norte 1,RECEIPT,31.752,-106.443,El Paso,TX,West Texas — El Paso,DEL NORTE #1,24,145000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-DN1-02,Juarez MGI,DELIVERY,31.76,-106.452,El Paso,TX,West Texas — El Paso,DEL NORTE #1,16,43000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-DN4-01,7164 Gillette Rd,DELIVERY,31.898,-106.618,El Paso,TX,West Texas — El Paso,DEL NORTE #4,16,40000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-DN4-02,7218 Gillette Rd,DELIVERY,31.901,-106.62,El Paso,TX,West Texas — El Paso,DEL NORTE #4,16,50000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-DN4-03,Canutillo State Line B.S.,BIDIRECTIONAL,31.91,-106.606,El Paso,TX,West Texas — El Paso,DEL NORTE #4,24,116000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-DN4-04,El Paso Canutillo,DELIVERY,31.912,-106.598,El Paso,TX,West Texas — El Paso,DEL NORTE #4,16,60000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-DN4-05,Gato Rd.,DELIVERY,31.893,-106.62,El Paso,TX,West Texas — El Paso,DEL NORTE #4,16,76000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-DN4-06,PNM-Canutillo,DELIVERY,31.919,-106.602,El Paso,TX,West Texas — El Paso,DEL NORTE #4,16,37000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-DN4-07,Strahan Rd,DELIVERY,31.905,-106.604,El Paso,TX,West Texas — El Paso,DEL NORTE #4,16,68000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-DN4-08,TGS-Canutillo,DELIVERY,31.921,-106.592,El Paso,TX,West Texas — El Paso,DEL NORTE #4,16,74000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-DN4-09,WGI Canutillo,DELIVERY,31.914,-106.586,El Paso,TX,West Texas — El Paso,DEL NORTE #4,16,40000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-DN5-01,Anthony Farmer's Gin,RECEIPT,32.003,-106.603,El Paso,TX,West Texas — El Paso,DEL NORTE #5,24,112000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-DN5-02,El Paso Anthony,DELIVERY,32.001,-106.598,El Paso,TX,West Texas — El Paso,DEL NORTE #5,16,56000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-DN5-03,FM RD 1905,DELIVERY,31.994,-106.61,El Paso,TX,West Texas — El Paso,DEL NORTE #5,16,76000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-DN5-04,Frank Lehman,BIDIRECTIONAL,32.006,-106.612,El Paso,TX,West Texas — El Paso,DEL NORTE #5,24,127000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-DN5-05,PNM-Anthony,BIDIRECTIONAL,32.012,-106.601,El Paso,TX,West Texas — El Paso,DEL NORTE #5,24,75000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-DN5-06,TGS-Anthony,BIDIRECTIONAL,32.004,-106.591,El Paso,TX,West Texas — El Paso,DEL NORTE #5,24,126000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-OK1-01,Jackson T. Hardeman,RECEIPT,34.302,-99.742,Hardeman,TX,Red River Border,OK #1,24,103000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-OK1-02,OK-1 Atmos FT624,DELIVERY,34.308,-99.732,Harmon,OK,Red River Border,OK #1,16,56000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-OK1-03,OK-1 Atmos FT688,DELIVERY,34.311,-99.724,Harmon,OK,Red River Border,OK #1,16,31000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-OK1-04,OK-1 CB (192135),DELIVERY,34.299,-99.75,Hardeman,TX,Red River Border,OK #1,16,49000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-OK2-01,Jackson T. Wilbarger,RECEIPT,34.142,-99.098,Wilbarger,TX,Red River Border,OK #2,24,112000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-OK2-02,OK-2 CB (192136),DELIVERY,34.15,-99.089,Tillman,OK,Red River Border,OK #2,16,63000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-OK3-01,Jackson T. Wichita,RECEIPT,34.128,-98.502,Wichita,TX,Red River Border,OK #3,24,108000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-OK3-02,OK-3 Atmos FT3405,DELIVERY,34.136,-98.492,Tillman,OK,Red River Border,OK #3,16,78000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-OK3-03,OK-3 CB (192137),DELIVERY,34.124,-98.512,Wichita,TX,Red River Border,OK #3,16,61000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-OK4-01,Atmos OK-4,BIDIRECTIONAL,34.201,-98.204,Cotton,OK,Red River Border,OK #4,24,111000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-OK4-02,OK-4 Rec,RECEIPT,34.208,-98.192,Cotton,OK,Red River Border,OK #4,24,129000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-OK9-01,WesTex Hemphill IC,BIDIRECTIONAL,35.8,-100.24,Hemphill,TX,Western Oklahoma,OK #9,24,71000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-OK9-02,Reydon TBS,DELIVERY,35.603,-99.77,Roger Mills,OK,Western Oklahoma,OK #9,16,59000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-OK9-03,OFS Viper Fuel Gas,DELIVERY,35.869,-99.799,Roger Mills,OK,Western Oklahoma,OK #9,16,51000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-OK9-04,OFS Compressor Fuel,DELIVERY,35.789,-99.472,Dewey,OK,Western Oklahoma,OK #9,16,42000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-OK9-05,OFS Crescendo Fuel Gas,DELIVERY,35.801,-99.451,Dewey,OK,Western Oklahoma,OK #9,16,66000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-OK9-06,OFS Leedy Plant,RECEIPT,35.812,-99.462,Dewey,OK,Western Oklahoma,OK #9,24,95000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-OK9-07,OGT-Pool,DELIVERY,35.749,-99.168,Custer,OK,Western Oklahoma,OK #9,16,74000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-OK9-08,OGT Aledo,DELIVERY,35.916,-99.227,Dewey,OK,Western Oklahoma,OK #9,16,35000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-OK9-09,PEPL Aledo,DELIVERY,35.899,-98.966,Blaine,OK,Western Oklahoma,OK #9,16,27000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-O12-01,Enogex,DELIVERY,36.282,-98.26,Major,OK,Central Oklahoma,OK #12,16,28000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-O12-02,OGT Lefty,DELIVERY,36.08,-98.183,Blaine,OK,Central Oklahoma,OK #12,16,62000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-O12-03,Mustang/Rodman Residue,RECEIPT,36.094,-97.787,Kingfisher,OK,Central Oklahoma,OK #12,24,142000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-O12-04,Southern Star,DELIVERY,36.662,-98.044,Garfield,OK,Central Oklahoma,OK #12,16,73000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-O11-01,OWT Red River,BIDIRECTIONAL,35.381,-99.736,Roger Mills,OK,Caprock Spur,CAPROCK OK #11,24,104000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE
+OKT-O11-02,OGT Caprock,BIDIRECTIONAL,35.242,-99.733,Beckham,OK,Caprock Spur,CAPROCK OK #11,24,120000,"OkTex Pipeline Company, L.L.C. (TSP 80-002-2246)",ACTIVE

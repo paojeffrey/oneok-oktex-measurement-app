@@ -45,9 +45,9 @@ def main():
     run_sql(f"""CREATE OR REPLACE TABLE {FQ}.dim_meters (
         meter_id STRING, meter_name STRING, meter_type STRING,
         latitude DOUBLE, longitude DOUBLE, county STRING, state STRING,
-        segment STRING, pipe_diameter_in INT, capacity_dth BIGINT,
-        operator STRING, status STRING, commissioned_year INT
-    ) USING DELTA COMMENT 'OkTex pipeline meter stations (synthetic demo data)'""", token)
+        segment STRING, station_group STRING, pipe_diameter_in INT,
+        capacity_dth BIGINT, operator STRING, status STRING
+    ) USING DELTA COMMENT 'OkTex pipeline meter stations (real names/locations from public OKT system map; synthetic quantities)'""", token)
     meters = build_meters()
     mcols = list(meters[0].keys())
     n = insert_rows("dim_meters", mcols, meters, token)
@@ -74,7 +74,7 @@ def main():
     # ---- fact_daily_measurements ----
     print("## Step 3: fact_daily_measurements")
     run_sql(f"""CREATE OR REPLACE TABLE {FQ}.fact_daily_measurements (
-        flow_date DATE, meter_id STRING, scheduled_dth BIGINT, actual_dth BIGINT,
+        gas_day DATE, meter_id STRING, scheduled_dth BIGINT, actual_dth BIGINT,
         pressure_psig DOUBLE, temperature_f DOUBLE, variance_pct DOUBLE
     ) USING DELTA COMMENT 'Daily scheduled/measured gas quantities per meter (synthetic)'""", token)
     measurements = build_measurements(meters)
@@ -89,8 +89,8 @@ def main():
             UNION ALL SELECT 'pipeline_segments', COUNT(*) FROM {FQ}.pipeline_segments
             UNION ALL SELECT 'fact_daily_measurements', COUNT(*) FROM {FQ}.fact_daily_measurements
             ORDER BY table"""),
-        ("date range", f"""SELECT MIN(flow_date) AS first_day, MAX(flow_date) AS last_day,
-            COUNT(DISTINCT flow_date) AS days FROM {FQ}.fact_daily_measurements"""),
+        ("date range", f"""SELECT MIN(gas_day) AS first_day, MAX(gas_day) AS last_day,
+            COUNT(DISTINCT gas_day) AS days FROM {FQ}.fact_daily_measurements"""),
     ]:
         rows, cols = run_sql(q, token)
         print(f"### {label}")
@@ -98,19 +98,19 @@ def main():
 
     print("### daily receipt vs delivery balance (last 7 days)")
     rows, cols = run_sql(f"""
-        SELECT m.flow_date,
+        SELECT m.gas_day,
                ROUND(SUM(CASE WHEN d.meter_type='RECEIPT' THEN m.actual_dth END)/1000,1) AS receipts_mdth,
-               ROUND(SUM(CASE WHEN d.meter_type IN ('DELIVERY','INTERCONNECT') THEN m.actual_dth END)/1000,1) AS deliveries_mdth
+               ROUND(SUM(CASE WHEN d.meter_type IN ('DELIVERY','BIDIRECTIONAL') THEN m.actual_dth END)/1000,1) AS deliveries_mdth
         FROM {FQ}.fact_daily_measurements m JOIN {FQ}.dim_meters d USING (meter_id)
-        WHERE m.flow_date >= (SELECT MAX(flow_date) FROM {FQ}.fact_daily_measurements) - INTERVAL 6 DAYS
-        GROUP BY m.flow_date ORDER BY m.flow_date""", token)
+        WHERE m.gas_day >= (SELECT MAX(gas_day) FROM {FQ}.fact_daily_measurements) - INTERVAL 6 DAYS
+        GROUP BY m.gas_day ORDER BY m.gas_day""", token)
     print(fmt_table(rows, cols) + "\n")
 
     print("### today's top meters by measured quantity")
     rows, cols = run_sql(f"""
         SELECT d.meter_id, d.meter_name, d.meter_type, m.actual_dth, m.pressure_psig, m.variance_pct
         FROM {FQ}.fact_daily_measurements m JOIN {FQ}.dim_meters d USING (meter_id)
-        WHERE m.flow_date = (SELECT MAX(flow_date) FROM {FQ}.fact_daily_measurements)
+        WHERE m.gas_day = (SELECT MAX(gas_day) FROM {FQ}.fact_daily_measurements)
         ORDER BY m.actual_dth DESC LIMIT 10""", token)
     print(fmt_table(rows, cols) + "\n")
     print("BUILD OK")

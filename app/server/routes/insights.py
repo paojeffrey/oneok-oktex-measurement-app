@@ -9,16 +9,16 @@ router = APIRouter()
 
 
 class InsightRequest(BaseModel):
-    flow_date: str | None = None
+    gas_day: str | None = None
 
 
 @router.post("/insights")
 def insights(req: InsightRequest):
     """Generate an operational summary for the requested day."""
-    if req.flow_date:
-        target = req.flow_date
+    if req.gas_day:
+        target = req.gas_day
     else:
-        latest = query("SELECT MAX(flow_date) AS d FROM fact_daily_measurements")
+        latest = query("SELECT MAX(gas_day) AS d FROM fact_daily_measurements")
         target = latest[0]["d"].isoformat()
 
     rows = query("""
@@ -26,12 +26,12 @@ def insights(req: InsightRequest):
                m.scheduled_dth, m.actual_dth, m.pressure_psig, m.variance_pct
         FROM fact_daily_measurements m
         JOIN dim_meters d USING (meter_id)
-        WHERE m.flow_date = %s
+        WHERE m.gas_day = %s
         ORDER BY m.actual_dth DESC
     """, (target,))
 
     receipts = sum(r["actual_dth"] for r in rows if r["meter_type"] == "RECEIPT")
-    deliveries = sum(r["actual_dth"] for r in rows if r["meter_type"] in ("DELIVERY", "INTERCONNECT"))
+    deliveries = sum(r["actual_dth"] for r in rows if r["meter_type"] in ("DELIVERY", "BIDIRECTIONAL"))
 
     lines = [f"OkTex daily measurements for {target}:",
              f"System totals: receipts={receipts:,} Dth, "
@@ -47,7 +47,7 @@ def insights(req: InsightRequest):
 
     try:
         summary = summarize_day(context)
-        return {"flow_date": target, "summary": summary, "model_used": True}
+        return {"gas_day": target, "summary": summary, "model_used": True}
     except Exception as exc:  # graceful fallback so the panel never hard-fails
         fallback = (
             f"On {target}, OkTex received {receipts:,} Dth and delivered {deliveries:,} Dth "
@@ -55,5 +55,5 @@ def insights(req: InsightRequest):
             f"{(receipts - deliveries) / deliveries * 100:+.1f}% vs deliveries). "
             "AI summary is temporarily unavailable; showing computed totals."
         )
-        return {"flow_date": target, "summary": fallback, "model_used": False,
+        return {"gas_day": target, "summary": fallback, "model_used": False,
                 "error": str(exc)[:200]}

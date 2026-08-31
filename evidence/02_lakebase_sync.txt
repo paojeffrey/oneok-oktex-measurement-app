@@ -10,9 +10,9 @@ tables created and loaded
 ### row counts
 table_name        | rows 
 -------------------------+------
- dim_meters              |   20
- fact_daily_measurements | 1200
- pipeline_segments       |   14
+ dim_meters              |   43
+ fact_daily_measurements | 2580
+ pipeline_segments       |   25
 (3 rows)
 
 ### date coverage
@@ -22,24 +22,24 @@ first_day  |  last_day  | days
 (1 row)
 
 ### today's flow by meter type
-meter_type  | meters | total_actual_dth 
---------------+--------+------------------
- DELIVERY     |      8 |           203506
- INTERCONNECT |      5 |           256926
- RECEIPT      |      7 |           449628
+meter_type   | meters | total_actual_dth 
+---------------+--------+------------------
+ BIDIRECTIONAL |      8 |           195753
+ DELIVERY      |     27 |           341154
+ RECEIPT       |      8 |           536264
 (3 rows)
 
 ### sample: today's top 8 meters
-meter_id |      meter_name      |  meter_type  | actual_dth | pressure_psig | variance_pct 
-----------+----------------------+--------------+------------+---------------+--------------
- OKT-010  | Perryton Receipt     | RECEIPT      |      96305 |         806.5 |         3.13
- OKT-001  | Levelland Receipt    | RECEIPT      |      72494 |         921.5 |         -4.4
- OKT-013  | Woodward Hub         | INTERCONNECT |      72320 |         783.1 |         3.06
- OKT-008  | Carson Receipt       | RECEIPT      |      69732 |         863.2 |        -4.74
- OKT-015  | Fairview Receipt     | RECEIPT      |      57992 |           708 |            0
- OKT-007  | Amarillo Hub         | INTERCONNECT |      57200 |         705.1 |        -0.86
- OKT-018  | Medford Interconnect | INTERCONNECT |      54391 |         782.3 |         4.05
- OKT-004  | Tulia Receipt        | RECEIPT      |      53956 |         731.3 |        -1.41
+meter_id  |       meter_name       | meter_type | actual_dth | pressure_psig | variance_pct 
+------------+------------------------+------------+------------+---------------+--------------
+ OKT-DN1-01 | Del Norte 1            | RECEIPT    |      88718 |         840.7 |        -2.45
+ OKT-OK4-02 | OK-4 Rec               | RECEIPT    |      73248 |         732.1 |        -3.52
+ OKT-O12-03 | Mustang/Rodman Residue | RECEIPT    |      73216 |         846.9 |         2.02
+ OKT-OK1-01 | Jackson T. Hardeman    | RECEIPT    |      71508 |         701.1 |         0.34
+ OKT-OK9-06 | OFS Leedy Plant        | RECEIPT    |      62448 |         900.9 |         -1.3
+ OKT-DN5-01 | Anthony Farmer's Gin   | RECEIPT    |      56887 |         835.5 |        -2.85
+ OKT-OK3-01 | Jackson T. Wichita     | RECEIPT    |      55875 |         748.8 |        -5.38
+ OKT-OK2-01 | Jackson T. Wilbarger   | RECEIPT    |      54364 |           853 |        -0.63
 (8 rows)
 
 LAKEBASE SYNC OK

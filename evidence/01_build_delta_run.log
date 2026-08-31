@@ -1,32 +1,32 @@
 # OkTex data build -> stable_classic_wg38i9_catalog.oneok_okt
 
 ## Step 1: dim_meters
-inserted 20 meter rows
-meter_type   | meters | total_capacity_dth
--------------+--------+-------------------
-DELIVERY     | 8      | 432000            
-INTERCONNECT | 5      | 530000            
-RECEIPT      | 7      | 695000            
+inserted 43 meter rows
+meter_type    | meters | total_capacity_dth
+--------------+--------+-------------------
+BIDIRECTIONAL | 8      | 850000            
+DELIVERY      | 27     | 1475000           
+RECEIPT       | 8      | 946000            
 
 ## Step 2: pipeline_segments (route polyline)
-inserted 14 route vertices
-seq | latitude | longitude | segment_name
-----+----------+-----------+-------------
-1   | 33.59    | -102.3    | West Texas  
-2   | 33.58    | -101.855  | West Texas  
-3   | 34.184   | -101.708  | West Texas  
-4   | 34.535   | -101.76   | West Texas  
-5   | 34.98    | -101.92   | Panhandle   
+inserted 25 route vertices
+seq | latitude | longitude | segment_name                
+----+----------+-----------+-----------------------------
+1   | 31.752   | -106.443  | West Texas — El Paso lateral
+2   | 31.812   | -106.52   | West Texas — El Paso lateral
+3   | 31.91    | -106.606  | West Texas — El Paso lateral
+4   | 32.003   | -106.603  | West Texas — El Paso lateral
+5   | 35.8     | -100.24   | Oklahoma mainline           
 
 ## Step 3: fact_daily_measurements
-inserted 1200 daily measurement rows
+inserted 2580 daily measurement rows
 ## Step 4: verification
 ### row counts
 table                   | rows
 ------------------------+-----
-dim_meters              | 20  
-fact_daily_measurements | 1200
-pipeline_segments       | 14  
+dim_meters              | 43  
+fact_daily_measurements | 2580
+pipeline_segments       | 25  
 
 ### date range
 first_day  | last_day   | days
@@ -34,28 +34,28 @@ first_day  | last_day   | days
 2026-06-30 | 2026-08-28 | 60  
 
 ### daily receipt vs delivery balance (last 7 days)
-flow_date  | receipts_mdth | deliveries_mdth
+gas_day    | receipts_mdth | deliveries_mdth
 -----------+---------------+----------------
-2026-08-22 | 425.6         | 422.5          
-2026-08-23 | 410.7         | 416.2          
-2026-08-24 | 448.7         | 441.9          
-2026-08-25 | 466.3         | 461.2          
-2026-08-26 | 438.6         | 462.9          
-2026-08-27 | 464.4         | 472.4          
-2026-08-28 | 449.6         | 460.4          
+2026-08-22 | 507.2         | 504.9          
+2026-08-23 | 505.2         | 512.8          
+2026-08-24 | 540.5         | 544.7          
+2026-08-25 | 562.3         | 560.6          
+2026-08-26 | 558.4         | 557.4          
+2026-08-27 | 578.7         | 564.6          
+2026-08-28 | 536.3         | 536.9          
 
 ### today's top meters by measured quantity
-meter_id | meter_name           | meter_type   | actual_dth | pressure_psig | variance_pct
----------+----------------------+--------------+------------+---------------+-------------
-OKT-010  | Perryton Receipt     | RECEIPT      | 96305      | 806.5         | 3.13        
-OKT-001  | Levelland Receipt    | RECEIPT      | 72494      | 921.5         | -4.4        
-OKT-013  | Woodward Hub         | INTERCONNECT | 72320      | 783.1         | 3.06        
-OKT-008  | Carson Receipt       | RECEIPT      | 69732      | 863.2         | -4.74       
-OKT-015  | Fairview Receipt     | RECEIPT      | 57992      | 708.0         | 0.0         
-OKT-007  | Amarillo Hub         | INTERCONNECT | 57200      | 705.1         | -0.86       
-OKT-018  | Medford Interconnect | INTERCONNECT | 54391      | 782.3         | 4.05        
-OKT-004  | Tulia Receipt        | RECEIPT      | 53956      | 731.3         | -1.41       
-OKT-012  | Beaver Receipt       | RECEIPT      | 51265      | 866.5         | -2.67       
-OKT-019  | Pond Creek Receipt   | RECEIPT      | 47884      | 740.0         | -3.15       
+meter_id   | meter_name             | meter_type    | actual_dth | pressure_psig | variance_pct
+-----------+------------------------+---------------+------------+---------------+-------------
+OKT-DN1-01 | Del Norte 1            | RECEIPT       | 88718      | 840.7         | -2.45       
+OKT-OK4-02 | OK-4 Rec               | RECEIPT       | 73248      | 732.1         | -3.52       
+OKT-O12-03 | Mustang/Rodman Residue | RECEIPT       | 73216      | 846.9         | 2.02        
+OKT-OK1-01 | Jackson T. Hardeman    | RECEIPT       | 71508      | 701.1         | 0.34        
+OKT-OK9-06 | OFS Leedy Plant        | RECEIPT       | 62448      | 900.9         | -1.3        
+OKT-DN5-01 | Anthony Farmers Gin    | RECEIPT       | 56887      | 835.5         | -2.85       
+OKT-OK3-01 | Jackson T. Wichita     | RECEIPT       | 55875      | 748.8         | -5.38       
+OKT-OK2-01 | Jackson T. Wilbarger   | RECEIPT       | 54364      | 853.0         | -0.63       
+OKT-DN5-04 | Frank Lehman           | BIDIRECTIONAL | 32857      | 747.4         | -5.4        
+OKT-OK4-01 | Atmos OK-4             | BIDIRECTIONAL | 30680      | 693.9         | 2.81        
 
 BUILD OK

@@ -1,7 +1,6 @@
-Dashboard created: OkTex Pipeline — Daily Measurements
+Lakeview dashboard: OkTex Pipeline — Daily Measurements
 dashboard_id: 01f1a32e13fa1331a64126e1b1b25f76
-path: /Users/jeffrey.pao@databricks.com/OkTex Pipeline — Daily Measurements.lvdash.json
 warehouse_id: 4c06524b26564b9c
-datasets: ['ds_kpi', 'ds_balance', 'ds_segment', 'ds_type', 'ds_meter']
-published: true
-url: https://fevm-stable-classic-wg38i9.cloud.databricks.com/dashboardsv3/01f1a32e13fa1331a64126e1b1b25f76/published
+datasets: ds_kpi, ds_balance, ds_segment, ds_type, ds_meter (all queries tested against Delta)
+published_url: https://fevm-stable-classic-wg38i9.cloud.databricks.com/dashboardsv3/01f1a32e13fa1331a64126e1b1b25f76/published
+source_tables: stable_classic_wg38i9_catalog.oneok_okt.{dim_meters, pipeline_segments, fact_daily_measurements}

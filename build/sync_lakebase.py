@@ -89,20 +89,20 @@ CREATE TABLE dim_meters (
     meter_id TEXT PRIMARY KEY,
     meter_name TEXT, meter_type TEXT,
     latitude DOUBLE PRECISION, longitude DOUBLE PRECISION,
-    county TEXT, state TEXT, segment TEXT,
+    county TEXT, state TEXT, segment TEXT, station_group TEXT,
     pipe_diameter_in INT, capacity_dth BIGINT,
-    operator TEXT, status TEXT, commissioned_year INT
+    operator TEXT, status TEXT
 );
 CREATE TABLE pipeline_segments (
     seq INT PRIMARY KEY, latitude DOUBLE PRECISION,
     longitude DOUBLE PRECISION, segment_name TEXT
 );
 CREATE TABLE fact_daily_measurements (
-    flow_date DATE, meter_id TEXT REFERENCES dim_meters(meter_id),
+    gas_day DATE, meter_id TEXT REFERENCES dim_meters(meter_id),
     scheduled_dth BIGINT, actual_dth BIGINT,
     pressure_psig DOUBLE PRECISION, temperature_f DOUBLE PRECISION,
     variance_pct DOUBLE PRECISION,
-    PRIMARY KEY (flow_date, meter_id)
+    PRIMARY KEY (gas_day, meter_id)
 );
 """]
 
@@ -118,11 +118,11 @@ CREATE TABLE fact_daily_measurements (
         parts.append(insert("fact_daily_measurements", fcols, measurements[i:i + 300]))
 
     parts.append("""
-CREATE INDEX IF NOT EXISTS idx_meas_date ON fact_daily_measurements(flow_date);
+CREATE INDEX IF NOT EXISTS idx_meas_date ON fact_daily_measurements(gas_day);
 CREATE OR REPLACE VIEW v_latest_measurements AS
   SELECT m.*, d.meter_name, d.meter_type, d.latitude, d.longitude, d.county, d.state, d.segment
   FROM fact_daily_measurements m JOIN dim_meters d USING (meter_id)
-  WHERE m.flow_date = (SELECT MAX(flow_date) FROM fact_daily_measurements);
+  WHERE m.gas_day = (SELECT MAX(gas_day) FROM fact_daily_measurements);
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO PUBLIC;
 """)
 
@@ -143,8 +143,8 @@ GRANT SELECT ON ALL TABLES IN SCHEMA public TO PUBLIC;
             UNION ALL SELECT 'pipeline_segments', COUNT(*) FROM pipeline_segments
             UNION ALL SELECT 'fact_daily_measurements', COUNT(*) FROM fact_daily_measurements
             ORDER BY table_name;"""),
-        ("date coverage", """SELECT MIN(flow_date) first_day, MAX(flow_date) last_day,
-            COUNT(DISTINCT flow_date) days FROM fact_daily_measurements;"""),
+        ("date coverage", """SELECT MIN(gas_day) first_day, MAX(gas_day) last_day,
+            COUNT(DISTINCT gas_day) days FROM fact_daily_measurements;"""),
         ("today's flow by meter type", """SELECT meter_type, COUNT(*) meters,
             SUM(actual_dth) total_actual_dth
             FROM v_latest_measurements GROUP BY meter_type ORDER BY meter_type;"""),

@@ -4,35 +4,35 @@
       "name": "ds_kpi",
       "displayName": "ds_kpi",
       "queryLines": [
-        "SELECT CAST(ROUND(SUM(CASE WHEN d.meter_type='RECEIPT' THEN m.actual_dth END)) AS BIGINT) AS receipts_dth, CAST(ROUND(SUM(CASE WHEN d.meter_type IN ('DELIVERY','INTERCONNECT') THEN m.actual_dth END)) AS BIGINT) AS deliveries_dth, CAST(ROUND(SUM(CASE WHEN d.meter_type='RECEIPT' THEN m.actual_dth END) - SUM(CASE WHEN d.meter_type IN ('DELIVERY','INTERCONNECT') THEN m.actual_dth END)) AS BIGINT) AS imbalance_dth, COUNT(DISTINCT m.meter_id) AS active_meters FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements m JOIN stable_classic_wg38i9_catalog.oneok_okt.dim_meters d USING (meter_id) WHERE m.flow_date = (SELECT MAX(flow_date) FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements)"
+        "SELECT CAST(ROUND(SUM(CASE WHEN d.meter_type='RECEIPT' THEN m.actual_dth END)) AS BIGINT) AS receipts_dth, CAST(ROUND(SUM(CASE WHEN d.meter_type IN ('DELIVERY','BIDIRECTIONAL') THEN m.actual_dth END)) AS BIGINT) AS deliveries_dth, CAST(ROUND(SUM(CASE WHEN d.meter_type='RECEIPT' THEN m.actual_dth END) - SUM(CASE WHEN d.meter_type IN ('DELIVERY','BIDIRECTIONAL') THEN m.actual_dth END)) AS BIGINT) AS imbalance_dth, COUNT(DISTINCT m.meter_id) AS active_meters FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements m JOIN stable_classic_wg38i9_catalog.oneok_okt.dim_meters d USING (meter_id) WHERE m.gas_day = (SELECT MAX(gas_day) FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements)"
       ]
     },
     {
       "name": "ds_balance",
       "displayName": "ds_balance",
       "queryLines": [
-        "SELECT m.flow_date, SUM(CASE WHEN d.meter_type='RECEIPT' THEN m.actual_dth ELSE 0 END) AS receipts_dth, SUM(CASE WHEN d.meter_type IN ('DELIVERY','INTERCONNECT') THEN m.actual_dth ELSE 0 END) AS deliveries_dth FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements m JOIN stable_classic_wg38i9_catalog.oneok_okt.dim_meters d USING (meter_id) GROUP BY m.flow_date ORDER BY m.flow_date"
+        "SELECT m.gas_day, SUM(CASE WHEN d.meter_type='RECEIPT' THEN m.actual_dth ELSE 0 END) AS receipts_dth, SUM(CASE WHEN d.meter_type IN ('DELIVERY','BIDIRECTIONAL') THEN m.actual_dth ELSE 0 END) AS deliveries_dth FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements m JOIN stable_classic_wg38i9_catalog.oneok_okt.dim_meters d USING (meter_id) GROUP BY m.gas_day ORDER BY m.gas_day"
       ]
     },
     {
       "name": "ds_segment",
       "displayName": "ds_segment",
       "queryLines": [
-        "SELECT d.segment, SUM(m.actual_dth) AS total_dth FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements m JOIN stable_classic_wg38i9_catalog.oneok_okt.dim_meters d USING (meter_id) WHERE m.flow_date = (SELECT MAX(flow_date) FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements) GROUP BY d.segment"
+        "SELECT d.segment, SUM(m.actual_dth) AS total_dth FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements m JOIN stable_classic_wg38i9_catalog.oneok_okt.dim_meters d USING (meter_id) WHERE m.gas_day = (SELECT MAX(gas_day) FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements) GROUP BY d.segment"
       ]
     },
     {
       "name": "ds_type",
       "displayName": "ds_type",
       "queryLines": [
-        "SELECT d.meter_type, SUM(m.actual_dth) AS total_dth FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements m JOIN stable_classic_wg38i9_catalog.oneok_okt.dim_meters d USING (meter_id) WHERE m.flow_date = (SELECT MAX(flow_date) FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements) GROUP BY d.meter_type"
+        "SELECT d.meter_type, SUM(m.actual_dth) AS total_dth FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements m JOIN stable_classic_wg38i9_catalog.oneok_okt.dim_meters d USING (meter_id) WHERE m.gas_day = (SELECT MAX(gas_day) FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements) GROUP BY d.meter_type"
       ]
     },
     {
       "name": "ds_meter",
       "displayName": "ds_meter",
       "queryLines": [
-        "SELECT d.meter_id, d.meter_name, d.meter_type, d.county, d.state, m.scheduled_dth, m.actual_dth, m.variance_pct, m.pressure_psig FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements m JOIN stable_classic_wg38i9_catalog.oneok_okt.dim_meters d USING (meter_id) WHERE m.flow_date = (SELECT MAX(flow_date) FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements) ORDER BY m.actual_dth DESC"
+        "SELECT d.meter_id, d.meter_name, d.meter_type, d.county, d.state, m.scheduled_dth, m.actual_dth, m.variance_pct, m.pressure_psig FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements m JOIN stable_classic_wg38i9_catalog.oneok_okt.dim_meters d USING (meter_id) WHERE m.gas_day = (SELECT MAX(gas_day) FROM stable_classic_wg38i9_catalog.oneok_okt.fact_daily_measurements) ORDER BY m.actual_dth DESC"
       ]
     }
   ],
@@ -244,8 +244,8 @@
                   "datasetName": "ds_balance",
                   "fields": [
                     {
-                      "name": "flow_date",
-                      "expression": "`flow_date`"
+                      "name": "gas_day",
+                      "expression": "`gas_day`"
                     },
                     {
                       "name": "receipts_dth",
@@ -265,7 +265,7 @@
               "widgetType": "line",
               "encodings": {
                 "x": {
-                  "fieldName": "flow_date",
+                  "fieldName": "gas_day",
                   "scale": {
                     "type": "temporal"
                   },
@@ -418,7 +418,7 @@
                         "color": "#2563eb"
                       },
                       {
-                        "value": "INTERCONNECT",
+                        "value": "BIDIRECTIONAL",
                         "color": "#e08a1e"
                       }
                     ]

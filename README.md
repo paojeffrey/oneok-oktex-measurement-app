@@ -5,16 +5,18 @@ natural-gas pipeline**: meter stations along the mainline and their **daily
 measured quantities**, shown on an interactive map with hover tooltips, KPIs,
 trend charts, a detail table, and an AI operations summary.
 
-> ### ⚠️ Data policy — synthetic data only
-> **No ONEOK or customer data is used anywhere in this repo.** Every measurement
-> quantity (scheduled/actual Dth, pressure, temperature, variance) is
-> **synthetically generated** with a seeded random generator
-> ([`build/generate_data.py`](build/generate_data.py)). Meter names, IDs, and
-> coordinates are fabricated and placed within the **publicly documented** OKT
-> system-map bounding box (lat 33.36→36.95, lon −102.33→−97.50: West Texas
-> Panhandle → north-central Oklahoma) purely so the demo map looks realistic.
-> The operator label references the public FERC TSP number (80-002-2246). This
-> is a solution-architecture demo artifact, not a source of real pipeline data.
+> ### ⚠️ Data policy — public geography, synthetic quantities
+> **No ONEOK or customer *operational* data is used anywhere in this repo.** The
+> meter **names, types, and locations** come from ONEOK's **public**
+> [OKT System Overview Map](https://www.oneok.com/okt) (the georeferenced Esri
+> ArcGIS "OKT System Map" PDF, included in [`refs/`](refs/)). Coordinates were
+> derived from that map's WGS-84 georeferencing (main viewport GPTS
+> lat 33.35884→36.95256, lon −102.32771→−97.49879, plus the El Paso and Red
+> River detail-inset viewports) — public infrastructure/regulatory data.
+> Every **measurement quantity** (scheduled/actual Dth, pressure, temperature,
+> variance) is **synthetically generated** with a seeded RNG
+> ([`build/generate_data.py`](build/generate_data.py)). This is a
+> solution-architecture demo artifact, not a source of real pipeline flows.
 
 ---
 
@@ -37,13 +39,13 @@ trend charts, a detail table, and an AI operations summary.
 ## Architecture / data flow
 
 ```
-build/generate_data.py         (synthetic meters, route, 60 days of measurements)
+build/generate_data.py    (REAL meters+route from public OKT map; synthetic 60-day quantities)
         │
         ├─► build/load_delta.py ─────►  Unity Catalog Delta
         │                               stable_classic_wg38i9_catalog.oneok_okt
-        │                                 · dim_meters (20)
-        │                                 · pipeline_segments (14)
-        │                                 · fact_daily_measurements (1,200)
+        │                                 · dim_meters (43)
+        │                                 · pipeline_segments (25)
+        │                                 · fact_daily_measurements (2,580)
         │                                       │
         │                                       └─►  Lakeview dashboard (dashboard/)
         │
@@ -62,11 +64,16 @@ build/generate_data.py         (synthetic meters, route, 60 days of measurements
 
 ## Data model (`stable_classic_wg38i9_catalog.oneok_okt`)
 
-- **`dim_meters`** — 20 meter stations: id, name, type (RECEIPT / DELIVERY /
-  INTERCONNECT), lat/lon, county, state, segment, pipe diameter, capacity.
-- **`pipeline_segments`** — 14 ordered mainline vertices for the map polyline.
-- **`fact_daily_measurements`** — 1,200 rows (20 meters × 60 days): scheduled &
-  actual Dth, pressure, temperature, scheduled-vs-actual variance.
+- **`dim_meters`** — 43 real OkTex meter stations: id, name, type (RECEIPT /
+  DELIVERY / BIDIRECTIONAL), lat/lon, county, state, region, station group
+  (DEL NORTE #1/#4/#5, OK #1–#12, CAPROCK #11), pipe diameter, capacity. Spans
+  three real regions: El Paso County TX, the Red River TX/OK border, and
+  western/central Oklahoma.
+- **`pipeline_segments`** — 25 vertices across 6 named route segments (El Paso
+  lateral, Oklahoma mainline, Enogex east spur, Caprock spur, and two Red River
+  border feeds), each drawn as its own polyline.
+- **`fact_daily_measurements`** — 2,580 rows (43 meters × 60 **gas days**):
+  scheduled & actual Dth, pressure, temperature, scheduled-vs-actual variance.
 
 ---
 
@@ -135,7 +142,7 @@ a fresh Lakebase OAuth credential per connection (see
 |----------|---------|
 | `GET /api/meters` | Meter dimension (id, type, lat/lon, county, capacity) |
 | `GET /api/route` | Ordered pipeline polyline vertices |
-| `GET /api/measurements?flow_date=YYYY-MM-DD` | Per-meter daily quantities + system KPIs (defaults to latest day) |
+| `GET /api/measurements?gas_day=YYYY-MM-DD` | Per-meter daily quantities + system KPIs (defaults to latest day) |
 | `GET /api/trend` | Daily system receipts vs deliveries (full history) |
 | `POST /api/insights` | Claude-generated operations summary for a day (graceful computed fallback if the model is unavailable) |
 

@@ -11,8 +11,8 @@ def get_meters():
     """All meter stations (static dimension) read live from Lakebase."""
     rows = query("""
         SELECT meter_id, meter_name, meter_type, latitude, longitude,
-               county, state, segment, pipe_diameter_in, capacity_dth,
-               operator, status, commissioned_year
+               county, state, segment, station_group, pipe_diameter_in,
+               capacity_dth, operator, status
         FROM dim_meters
         ORDER BY meter_id
     """)

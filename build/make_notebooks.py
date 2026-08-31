@@ -85,10 +85,10 @@ def build_nb01():
             "# 01 · Generate OkTex Pipeline Data → Unity Catalog Delta\n\n"
             "**Target:** `stable_classic_wg38i9_catalog.oneok_okt`  \n"
             "**Warehouse:** Serverless Starter Warehouse JPao\n\n"
-            "> **Data policy:** All measurement quantities are **synthetic**. Pipeline "
-            "geography is placed within the *public* OKT system-map bounding box "
-            "(lat 33.36→36.95, lon −102.33→−97.50: West Texas Panhandle → north-central "
-            "Oklahoma). **No ONEOK or customer data is used.**\n\n"
+            "> **Data policy:** Meter names, types, and locations are the **real** OkTex "
+            "stations from the *public* OKT System Overview Map (georeferenced Esri PDF). "
+            "All measurement **quantities** are **synthetic**. No ONEOK or customer "
+            "operational data is used.**\n\n"
             "This notebook generates three tables — `dim_meters`, `pipeline_segments`, "
             "`fact_daily_measurements` — and loads them into Delta, then verifies."
         ),
@@ -176,14 +176,14 @@ def build_nb03():
         md_cell("### 1. Daily system balance — receipts vs deliveries (last 10 days)"),
         code_cell(
             "rows, cols = run_sql(f'''\n"
-            "  SELECT m.flow_date,\n"
+            "  SELECT m.gas_day,\n"
             "         ROUND(SUM(CASE WHEN d.meter_type='RECEIPT' THEN m.actual_dth END)/1000,1) AS receipts_mdth,\n"
-            "         ROUND(SUM(CASE WHEN d.meter_type IN ('DELIVERY','INTERCONNECT') THEN m.actual_dth END)/1000,1) AS deliv_mdth,\n"
+            "         ROUND(SUM(CASE WHEN d.meter_type IN ('DELIVERY','BIDIRECTIONAL') THEN m.actual_dth END)/1000,1) AS deliv_mdth,\n"
             "         ROUND((SUM(CASE WHEN d.meter_type='RECEIPT' THEN m.actual_dth END)\n"
-            "               -SUM(CASE WHEN d.meter_type IN ('DELIVERY','INTERCONNECT') THEN m.actual_dth END))/1000,1) AS imbalance_mdth\n"
+            "               -SUM(CASE WHEN d.meter_type IN ('DELIVERY','BIDIRECTIONAL') THEN m.actual_dth END))/1000,1) AS imbalance_mdth\n"
             "  FROM {FQ}.fact_daily_measurements m JOIN {FQ}.dim_meters d USING (meter_id)\n"
-            "  WHERE m.flow_date >= (SELECT MAX(flow_date) FROM {FQ}.fact_daily_measurements) - INTERVAL 9 DAYS\n"
-            "  GROUP BY m.flow_date ORDER BY m.flow_date''', tok)\n"
+            "  WHERE m.gas_day >= (SELECT MAX(gas_day) FROM {FQ}.fact_daily_measurements) - INTERVAL 9 DAYS\n"
+            "  GROUP BY m.gas_day ORDER BY m.gas_day''', tok)\n"
             "print(fmt_table(rows, cols))",
             ns),
         md_cell("### 2. Throughput by pipeline segment (today)"),
@@ -191,7 +191,7 @@ def build_nb03():
             "rows, cols = run_sql(f'''\n"
             "  SELECT d.segment, COUNT(*) AS meters, ROUND(SUM(m.actual_dth)/1000,1) AS total_mdth\n"
             "  FROM {FQ}.fact_daily_measurements m JOIN {FQ}.dim_meters d USING (meter_id)\n"
-            "  WHERE m.flow_date = (SELECT MAX(flow_date) FROM {FQ}.fact_daily_measurements)\n"
+            "  WHERE m.gas_day = (SELECT MAX(gas_day) FROM {FQ}.fact_daily_measurements)\n"
             "  GROUP BY d.segment ORDER BY total_mdth DESC''', tok)\n"
             "print(fmt_table(rows, cols))",
             ns),
@@ -200,7 +200,7 @@ def build_nb03():
             "rows, cols = run_sql(f'''\n"
             "  SELECT d.meter_id, d.meter_name, d.meter_type, m.scheduled_dth, m.actual_dth, m.variance_pct\n"
             "  FROM {FQ}.fact_daily_measurements m JOIN {FQ}.dim_meters d USING (meter_id)\n"
-            "  WHERE m.flow_date = (SELECT MAX(flow_date) FROM {FQ}.fact_daily_measurements)\n"
+            "  WHERE m.gas_day = (SELECT MAX(gas_day) FROM {FQ}.fact_daily_measurements)\n"
             "  ORDER BY ABS(m.variance_pct) DESC LIMIT 10''', tok)\n"
             "print(fmt_table(rows, cols))",
             ns),
