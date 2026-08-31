@@ -42,9 +42,10 @@ function PipelineMap({ route, meters, onSelect }) {
   useEffect(() => {
     if (mapRef.current || !elRef.current) return;
     const map = L.map(elRef.current, { zoomControl: true, scrollWheelZoom: true });
+    // OpenStreetMap standard tiles — keyless, no API-key watermark.
     L.tileLayer(
-      "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-      { attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: "abcd", maxZoom: 19 }
+      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      { attribution: '&copy; OpenStreetMap contributors', subdomains: "abc", maxZoom: 19 }
     ).addTo(map);
     mapRef.current = map;
     layerRef.current = L.layerGroup().addTo(map);
